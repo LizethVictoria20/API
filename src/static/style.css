@@ -1,0 +1,149 @@
+/* Estilo global */
+* {
+  font-family: 'Poppins', sans-serif; /* Establece la fuente para todo el documento */
+  margin: 0; /* Elimina los márgenes predeterminados */
+  padding: 0; /* Elimina los rellenos predeterminados */
+}
+
+/* Estilo de la sección de inicio de sesión */
+section {
+  display: flex; /* Usa el modelo de caja flexible */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Ancho completo */
+  min-height: 100vh; /* Altura mínima de la ventana gráfica */
+  background: url(Nebula.jpg); /* Fondo de la sección */
+  background-size: cover; /* Ajusta el tamaño del fondo */
+  background-position: center; /* Posición del fondo */
+}
+
+/* Estilo del contenedor principal */
+.contenedor {
+  position: relative; /* Posicionamiento relativo */
+  width: 400px; /* Ancho del contenedor */
+  background-color: transparent; /* Fondo transparente */
+  backdrop-filter: blur(15px); /* Desenfoque del fondo */
+  border: 2px solid rgba(255, 255, 255, .6); /* Borde semitransparente */
+  border-radius: 20px; /* Bordes redondeados */
+  height: 450px; /* Altura del contenedor */
+  display: flex; /* Usa el modelo de caja flexible */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+}
+
+/* Estilo del título del formulario */
+.contenedor h2 {
+  font-size: 2.3rem; /* Tamaño del texto */
+  color: #fff; /* Color del texto */
+  text-align: center; /* Alineación del texto */
+}
+
+/* Estilo de los campos de entrada */
+.input-contenedor {
+  position: relative; /* Posicionamiento relativo */
+  margin: 30px 0; /* Márgenes superior e inferior */
+  width: 300px; /* Ancho del campo */
+  border-bottom: 2px solid #fff; /* Borde inferior */
+}
+
+/* Estilo de las etiquetas flotantes */
+.input-contenedor label {
+  position: absolute; /* Posicionamiento absoluto */
+  top: 15%; /* Posición superior */
+  left: 5px; /* Posición izquierda */
+  transform: translateY(-50%); /* Desplazamiento vertical */
+  color: #fff; /* Color del texto */
+  font-size: 1rem; /* Tamaño del texto */
+  transition: .3s ease-out; /* Transición suave */
+  pointer-events: none; /* Eventos de puntero desactivados */
+  font-weight: bold; /* Peso de la fuente */  
+}
+
+/* Estilo de las etiquetas flotantes cuando el campo está enfocado o tiene datos */
+input:focus ~ label,
+input:valid ~ label {
+  top: -5px; /* Desplazamiento hacia arriba */
+}
+
+/* Estilo de los campos de entrada */
+.input-contenedor input {
+  width: 100%; /* Ancho completo */
+  height: 50px; /* Altura del campo */
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin borde */
+  outline: none; /* Sin contorno */
+  font-size: 1rem; /* Tamaño del texto */
+  padding: - 35px 0 5px; /* Relleno */
+  color: #fff; /* Color del texto */
+}
+
+/* Estilo de los iconos dentro de los campos de entrada */
+.input-contenedor i {
+  position: absolute; /* Posicionamiento absoluto */
+  color: #fff; /* Color del icono */
+  font-size: 1.6rem; /* Tamaño del icono */
+  top: 19px; /* Posición superior */
+  right: 8px; /* Posición derecha */
+}
+
+/* Estilo del mensaje de "Olvidé la contraseña" */
+.olvidar {
+  margin: -15px 0 15px; /* Márgenes superior, inferior y lateral */
+  font-size: .9em; /* Tamaño del texto */
+  color: #fff; /* Color del texto */
+  display: flex; /* Usa el modelo de caja flexible */
+  justify-content: center; /* Centra el contenido horizontalmente */
+}
+
+/* Estilo de los enlaces dentro del mensaje "Olvidé la contraseña" */
+.olvidar label input {
+  margin: 3px; /* Márgenes */
+}
+
+.olvidar label a {
+  color: #fff; /* Color del enlace */
+  text-decoration: none; /* Sin subrayado */
+  transition: 3s; /* Transición de 3 segundos */
+  font-size: .9em; /* Tamaño del texto */
+}
+
+.olvidar label a:hover {
+  text-decoration: underline; /* Subrayado al pasar el ratón */
+}
+
+/* Estilo del botón de inicio de sesión */
+button {
+  width: 100%; /* Ancho completo */
+  height: 45px; /* Altura del botón */
+  border-radius: 40px; /* Bordes redondeados */
+  background: #fff; /* Fondo blanco */
+  border: none; /* Sin borde */
+  font-weight: bold; /* Peso de la fuente */
+  cursor: pointer; /* Cursor de puntero */
+  outline: none; /* Sin contorno */
+  font-size: 1rem; /* Tamaño del texto */
+  transition: .4s; /* Transición de 0.4 segundos */
+}
+
+button:hover {
+  opacity: .9; /* Opacidad al pasar el ratón */
+}
+
+/* Estilo del mensaje "Crear una cuenta" */
+.registrar {
+  font-size: .8rem; /* Tamaño del texto */
+  color: #fff; /* Color del texto */
+  text-align: center; /* Alineación del texto */
+  margin: 20px 0 10px; /* Márgenes */
+}
+
+.registrar p a {
+  text-decoration: none; /* Sin subrayado */
+  color: #fff; /* Color del enlace */
+  font-weight: bold; /* Peso de la fuente */
+  transition: .3s; /* Transición de 0.3 segundos */
+}
+
+.registrar p a:hover {
+  text-decoration: underline; /* Subrayado al pasar el ratón */
+}

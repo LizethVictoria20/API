@@ -1,0 +1,70 @@
+<!DOCTYPE html> <!-- Indica que el documento es HTML5 -->
+<html lang="en"> <!-- Establece el idioma del documento como inglés -->
+
+<head>
+    <!-- Enlace al archivo de estilos -->
+    <link href="style.css" rel="stylesheet">
+
+    <!-- Configuración del documento -->
+    <meta charset="UTF-8"> <!-- Establece la codificación del documento como UTF-8 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Enlaces para cargar fuentes desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Kit de iconos Font Awesome -->
+    <script src="https://kit.fontawesome.com/8efae68dd6.js" crossorigin="anonymous"></script>
+    <!-- Configuración para dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página -->
+    <title>ARAGANG</title>
+</head>
+
+<body>
+    <!-- Sección de inicio de sesión -->
+    <section>
+        <!-- Contenedor principal -->
+        <div class="contenedor">
+            <!-- Contenido del formulario -->
+            <div class="formulario">
+                <!-- Formulario de inicio de sesión -->
+                <form action="#">
+                    <!-- Título del formulario -->
+                    <h2>Iniciar sesión</h2>
+
+                    <!-- Campo de correo electrónico -->
+                    <div class="input-contenedor">
+                        <i class="fa-regular fa-envelope"></i> <!-- Icono de correo -->
+                        <input type="email" required> <!-- Campo de entrada de correo electrónico -->
+                        <label for="#">Email</label> <!-- Etiqueta del campo de correo electrónico -->
+                    </div>
+                    
+                    <!-- Campo de contraseña -->
+                    <div class="input-contenedor">
+                        <i class="fa-solid fa-lock"></i> <!-- Icono de candado -->
+                        <input type="password" required> <!-- Campo de entrada de contraseña -->
+                        <label for="#">Contraseña</label> <!-- Etiqueta del campo de contraseña -->
+                    </div>
+
+                    <!-- Enlace para olvidar la contraseña -->
+                    <div class="olvidar">
+                        <label for="#">
+                            <input type="checkbox"> <!-- Casilla de verificación -->
+                            <a href="#">Olvidé la contraseña.</a> <!-- Enlace para recuperar la contraseña -->
+                        </label>
+                    </div>
+                </form>
+
+                <!-- Botón de inicio de sesión -->
+                <div>
+                    <button>Acceder</button> <!-- Botón para iniciar sesión -->
+
+                    <!-- Enlace para registrar una cuenta -->
+                    <div class="registrar">
+                        <p>No tengo cuenta <a href="./index1.html">Crear una.</a></p> <!-- Mensaje y enlace para registrar una cuenta -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
