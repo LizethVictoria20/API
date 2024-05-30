@@ -1,0 +1,241 @@
+¡Por supuesto! Vamos a retomar el proyecto desde ese punto, asegurando que todo esté configurado correctamente para una API RESTful utilizando Node.js, Express y MySQL2.
+
+### Estructura del Proyecto
+
+Primero, definimos la estructura del proyecto:
+
+```
+/project-root
+|-- /node_modules
+|-- /config
+|   |-- database.js
+|-- /controllers
+|   |-- auth.controller.js
+|-- /middleware
+|   |-- auth.js
+|-- /models
+|   |-- Osito.js
+|-- /routes
+|   |-- auth.routes.js
+|-- package.json
+|-- app.js
+```
+
+### Paso 1: Configurar la Conexión a la Base de Datos
+
+**config/database.js**
+
+```javascript
+import { createPool } from 'mysql2/promise';
+
+export const pool = createPool({
+    host: 'localhost',
+    user: 'root',
+    password: '**', // Cambia esto según tu configuración
+    port: 3306, // Asegúrate de que este sea el puerto correcto
+    database: 'OsitosCariñositos'
+});
+```
+
+### Paso 2: Definir el Modelo de Usuario
+
+**models/Osito.js**
+
+```javascript
+import { pool } from '../config/database.js';
+
+export const createUser = async (user) => {
+    const [result] = await pool.query(
+        'INSERT INTO Ositos (name, email_osito, password, admin, rol, color) VALUES (?, ?, ?, ?, ?, ?)', 
+        [user.name, user.email_osito, user.password, user.admin, user.rol, user.color]
+    );
+    return result.insertId;
+};
+
+export const getUserByEmail = async (email) => {
+    const [rows] = await pool.query('SELECT * FROM Ositos WHERE email_osito = ?', [email]);
+    return rows[0];
+};
+```
+
+### Paso 3: Crear Middleware de Autenticación
+
+**middleware/auth.js**
+
+```javascript
+import jwt from 'jsonwebtoken';
+
+export const ACCESS_TOKEN_SECRET = 'your_secret_key_here'; // Define tu clave secreta aquí
+
+export const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+};
+```
+
+### Paso 4: Crear Controladores de Autenticación
+
+**controllers/auth.controller.js**
+
+```javascript
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import Joi from 'joi';
+import { createUser, getUserByEmail } from '../models/Osito.js';
+import { ACCESS_TOKEN_SECRET } from '../middleware/auth.js';
+
+const registerSchema = Joi.object({
+    name: Joi.string().min(3).max(30).required(),
+    email_osito: Joi.string().email().required(),
+    password: Joi.string().min(5).regex(/(?=.*[0-9])(?=.*[A-Z])/).required(),
+    confirm_password: Joi.string().valid(Joi.ref('password')).required(),
+    color: Joi.string().required()
+});
+
+const loginSchema = Joi.object({
+    email_osito: Joi.string().email().required(),
+    password: Joi.string().required()
+});
+
+export const register = async (req, res) => {
+    try {
+        const { name, email_osito, password, confirm_password, color } = await registerSchema.validateAsync(req.body);
+
+        const existingUser = await getUserByEmail(email_osito);
+        if (existingUser) {
+            return res.status(400).send('Email already registered');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const userId = await createUser({
+            name,
+            email_osito,
+            password: hashedPassword,
+            admin: false,
+            rol: 'User',
+            color
+        });
+
+        res.status(201).send({ userId, name, email_osito, color });
+    } catch (error) {
+        res.status(400).send(error.details[0].message);
+    }
+};
+
+export const login = async (req, res) => {
+    try {
+        const { email_osito, password } = await loginSchema.validateAsync(req.body);
+
+        const user = await getUserByEmail(email_osito);
+        if (!user) {
+            return res.status(400).send('Invalid email or password');
+        }
+
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.status(400).send('Invalid email or password');
+        }
+
+        const userForToken = { osito_id: user.osito_id, name: user.name, admin: user.admin };
+        const accessToken = jwt.sign(userForToken, ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+
+        res.json({ accessToken });
+    } catch (error) {
+        res.status(400).send(error.details[0].message);
+    }
+};
+```
+
+### Paso 5: Crear Rutas de Autenticación
+
+**routes/auth.routes.js**
+
+```javascript
+import express from 'express';
+import { register, login } from '../controllers/auth.controller.js';
+
+const router = express.Router();
+
+router.post('/register', register);
+router.post('/login', login);
+
+export default router;
+```
+
+### Paso 6: Configurar el Servidor y Rutas
+
+**app.js**
+
+```javascript
+import express from 'express';
+import authRoutes from './routes/auth.routes.js';
+import { authenticateToken } from './middleware/auth.js';
+
+const app = express();
+app.use(express.json());
+
+app.use('/auth', authRoutes);
+
+app.get('/protected', authenticateToken, (req, res) => {
+    res.send('This is a protected route');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+```
+
+### Paso 7: Instalar Dependencias
+
+Ejecuta el siguiente comando para instalar todas las dependencias necesarias:
+
+```bash
+npm install express mysql2 bcryptjs jsonwebtoken joi
+```
+
+### Verificación del Funcionamiento
+
+1. **Registro de Usuario**:
+    Envía una solicitud POST a `/auth/register` con el cuerpo:
+
+    ```json
+    {
+        "name": "newosito",
+        "email_osito": "newosito@example.com",
+        "password": "Password1",
+        "confirm_password": "Password1",
+        "color": "Rojo"
+    }
+    ```
+
+2. **Inicio de Sesión**:
+    Envía una solicitud POST a `/auth/login` con el cuerpo:
+
+    ```json
+    {
+        "email_osito": "newosito@example.com",
+        "password": "Password1"
+    }
+    ```
+
+    La respuesta incluirá un token JWT.
+
+3. **Acceso a Ruta Protegida**:
+    Envía una solicitud GET a `/protected` con el token JWT en el encabezado de autorización:
+
+    ```http
+    GET /protected
+    Authorization: Bearer your_jwt_token_here
+    ```
+
+Siguiendo estos pasos, tendrás una API RESTful completa con registro y autenticación usando Node.js, Express y MySQL2, incluyendo la validación y encriptación de contraseñas. Si te encuentras con algún error o necesitas ajustes adicionales, por favor házmelo saber.

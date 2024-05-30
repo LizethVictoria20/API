@@ -5,7 +5,7 @@ USE OsitosCariñositos;
 CREATE TABLE `Ositos`(
     osito_id INT(10) NOT NULL AUTO_INCREMENT,
     name VARCHAR(30) NOT NULL,
-    password VARCHAR() NOT NULL ,
+    password VARCHAR(60) NOT NULL ,
     admin BOOLEAN NOT NULL, 
     rol VARCHAR(20),
     color VARCHAR(15) NOT NULL,
@@ -23,6 +23,15 @@ CREATE TABLE `Habilidades` (
     PRIMARY KEY (habilidad_id)
 );
 
+CREATE TABLE `Equipos` (
+    equipo_id INT(10) NOT NULL AUTO_INCREMENT,
+    equipo_nombre VARCHAR(20),
+    lider_id INT(10),
+    equipo_especialidad VARCHAR(45),
+    FOREIGN KEY (lider_id) REFERENCES Ositos(osito_id),
+    PRIMARY KEY (equipo_id)
+);
+
 CREATE TABLE `Misiones` (
     mision_id INT(10) NOT NULL AUTO_INCREMENT,
     mision_nombre VARCHAR(20),
@@ -31,15 +40,6 @@ CREATE TABLE `Misiones` (
     equipo_id INT(10),
     FOREIGN KEY (equipo_id) REFERENCES Equipos(equipo_id),
     PRIMARY KEY (mision_id)
-);
-
-CREATE TABLE `Equipos` (
-    equipo_id INT(10) NOT NULL AUTO_INCREMENT,
-    equipo_nombre VARCHAR(20),
-    lider_id INT(10),
-    equipo_especialidad VARCHAR(45),
-    FOREIGN KEY (lider_id) REFERENCES Ositos(osito_id),
-    PRIMARY KEY (equipo_id)
 );
 
 CREATE TABLE `Osito_Equipo` (
