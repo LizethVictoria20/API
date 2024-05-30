@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import { getCharacters, getCharacter, createCharacter, updateCharacter, deleleCharacter } from '../controllers/characters.controller.js';
+import { getOsitos, getOsito, createOsito, updateOsito, deleteOsito } from '../controllers/ositos.controller.js';
 
 const router = Router();
 
-router.get('/characters', getCharacters);
-router.get('/characters/:id', getCharacter);
+router.get('/ositos', getOsitos);
+router.get('/ositos/:id', getOsito);
 
-router.post('/characters', createCharacter);
+router.post('/ositos', createOsito);
 
-router.put('/characters/:id', updateCharacter);
+router.put('/ositos/:id', updateOsito);
 
-router.delete('/characters/:id', deleleCharacter);
+router.delete('/ositos/:id', deleteOsito);
 
 
 export default router;

@@ -1,5 +1,5 @@
 import express from 'express';
-import charactersRoutes from './routes/characters.routes.js';
+import ositoRoutes from './routes/characters.routes.js';
 import indexRoutes from './routes/index.routes.js';
 
 import authRoutes from './routes/auth.routes.js';
@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json())
 
 app.use(indexRoutes);
-app.use('/api', charactersRoutes);
+app.use('/api', ositoRoutes);
 
 app.use('/api', authRoutes);
 
