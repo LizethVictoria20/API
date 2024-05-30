@@ -8,9 +8,15 @@ export const authenticateToken = (req, res, next) => {
 
     if (token == null) return res.sendStatus(401);
 
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    });
+    // jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+    //     if (err) return res.sendStatus(403);
+    //     req.user = user;
+    //     next();
+    // });
+
+    // decodificar el token y acceder al payload. 
+
+    // Revisar si el rol cargado en el payload del token es admin
+    
+    // si es admin continuar la ejecución de la ruta next(), sino, responder un codigo de estado de no autorizado. 
 };
